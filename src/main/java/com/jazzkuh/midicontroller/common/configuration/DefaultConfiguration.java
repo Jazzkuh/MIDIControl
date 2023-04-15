@@ -15,8 +15,8 @@ public class DefaultConfiguration extends ConfigurateConfig {
         super(Path.of("").toAbsolutePath().resolve("controller-config.yml"));
 
         this.version = rootNode.node("_version").getString("1");
-        this.spotifyClientId = rootNode.node("spotify", "client-id").getString("SPOTIFY_CLIENT_ID");
-        this.spotifyClientSecret = rootNode.node("spotify", "client-secret").getString("SPOTIFY_CLIENT_SECRET");
-        this.spotifyRefreshToken = rootNode.node("spotify", "refresh-token").getString("SPOTIFY_REFRESH_TOKEN");
+        this.spotifyClientId = rootNode.node("spotify", "client-id").getString(SecretValues.SPOTIFY_CLIENT_ID.getValue());
+        this.spotifyClientSecret = rootNode.node("spotify", "client-secret").getString(SecretValues.SPOTIFY_CLIENT_SECRET.getValue());
+        this.spotifyRefreshToken = rootNode.node("spotify", "refresh-token").getString(SecretValues.SPOTIFY_REFRESH_TOKEN.getValue());
     }
 }

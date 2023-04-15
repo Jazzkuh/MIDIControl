@@ -9,9 +9,10 @@ import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 
-import javax.sound.midi.*;
-
-import java.util.*;
+import java.awt.*;
+import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -53,5 +54,6 @@ public class MidiController {
 
 	public static void main(String[] args) {
 		setInstance(new MidiController());
+		MidiControllerApplication.startApp(args);
 	}
 }
