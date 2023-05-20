@@ -1,6 +1,7 @@
 package com.jazzkuh.midicontroller;
 
 import com.jazzkuh.midicontroller.common.configuration.DefaultConfiguration;
+import com.jazzkuh.midicontroller.common.triggers.RegularLightTrigger;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,7 @@ public class MidiController {
 	private final @Getter Logger logger = Logger.getLogger("MidiControl");
 	private final @Getter DefaultConfiguration defaultConfiguration;
 	private @Getter TargetDataLine line;
-	private @Getter @Setter Boolean onAir = null;
+	private @Getter @Setter Boolean onAir = false;
 
 	@SneakyThrows
 	public MidiController() {
@@ -37,6 +38,7 @@ public class MidiController {
 			return;
 		}
 
+		/*
 		AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
 		Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
 		Optional<Mixer.Info> optionalLineInfo = Arrays.stream(mixerInfos).filter(mixerInfo -> mixerInfo.getName().equals("RODECaster Pro II Chat")).findFirst();
@@ -56,8 +58,10 @@ public class MidiController {
 		TargetDataLine dataLine = (TargetDataLine) mixer.getLine(info);
 		dataLine.open(format);
 		dataLine.start();
-
 		line = dataLine;
+		*/
+
+		new RegularLightTrigger().process(null);
 
 		spotifyApi = new SpotifyApi.Builder()
 				.setClientId(defaultConfiguration.getSpotifyClientId())
@@ -76,7 +80,7 @@ public class MidiController {
 			}
 		}, 0, 3200 * 1000);
 
-		new Timer().scheduleAtFixedRate(new OnAirChecker(), 0, 20);
+		//new Timer().scheduleAtFixedRate(new OnAirChecker(), 0, 1);
 	}
 
 	public static void main(String[] args) {

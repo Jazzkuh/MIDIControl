@@ -18,6 +18,11 @@ public class MidiLoader {
 		}
 
 		List<MidiDevice.Info> infoList = Arrays.stream(devices).filter(device -> device.getName().contains("RODECaster")).toList();
+		for (MidiDevice.Info info : infoList) {
+			System.out.println(info.getName());
+			MidiDevice device = MidiSystem.getMidiDevice(info);
+			System.out.println(device.getTransmitters().toString());
+		}
 		if (infoList.isEmpty()) {
 			System.out.println("No RODECaster found");
 			return false;

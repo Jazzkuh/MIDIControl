@@ -14,8 +14,6 @@ public class MidiTriggerRegistry {
 		triggers.put(new MidiResult((byte) 8, (byte) 127), SpotifyPauseTrigger.class);
 		triggers.put(new MidiResult((byte) 9, (byte) 127), SpotifySkipTrigger.class);
 		triggers.put(new MidiResult((byte) 10, (byte) 127), SpotifyPreviousTrigger.class);
-		triggers.put(new MidiResult((byte) 11, (byte) 127), OnAirLightTrigger.class);
-		triggers.put(new MidiResult((byte) 11, (byte) 0), RegularLightTrigger.class);
 	}
 
 	public static void registerAction(MidiResult midiResult, Class<? extends MidiTriggerAction> triggerClass) {
