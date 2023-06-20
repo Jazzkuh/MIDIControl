@@ -3,6 +3,7 @@ package com.jazzkuh.midicontroller;
 import com.jazzkuh.midicontroller.common.MidiTriggerRegistry;
 import com.jazzkuh.midicontroller.common.triggers.OnAirLightTrigger;
 import com.jazzkuh.midicontroller.common.triggers.RegularLightTrigger;
+import com.jazzkuh.midicontroller.common.triggers.SpotifySkipStartTrigger;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiResult;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiTriggerAction;
 import lombok.SneakyThrows;
@@ -11,6 +12,7 @@ import se.michaelthelin.spotify.model_objects.miscellaneous.CurrentlyPlayingCont
 import se.michaelthelin.spotify.requests.data.player.GetInformationAboutUsersCurrentPlaybackRequest;
 import se.michaelthelin.spotify.requests.data.player.PauseUsersPlaybackRequest;
 import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToNextTrackRequest;
+import se.michaelthelin.spotify.requests.data.player.StartResumeUsersPlaybackRequest;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
@@ -32,7 +34,20 @@ public class MidiInputReceiver implements Receiver {
 		byte pressedValue = byteArray[2];
 
 		MidiResult midiResult = new MidiResult(noteValue, pressedValue);
-		System.out.println(midiResult);
+		System.out.println("Channel: " + channel + " Note: " + noteValue + " Pressed: " + pressedValue);
+
+		if (channel == -80 && noteValue == 20 && pressedValue >= 1 && pressedValue <= 6) {
+			MidiController.getInstance().setPreviousButton(pressedValue);
+			System.out.println("Previous button: " + pressedValue);
+		}
+
+		if (channel == -80 && noteValue == 20) {
+			System.out.println(MidiController.getInstance().getPreviousButton() == 6);
+			if (pressedValue == 6 || MidiController.getInstance().getPreviousButton() == 6) {
+				new SpotifySkipStartTrigger().process(null);
+				System.out.println("Skip/Start button: " + pressedValue);
+			}
+		}
 
 		if (channel == -80 && noteValue == 15) {
 			if (pressedValue >= 1 && !MidiController.getInstance().getOnAir()) {
@@ -48,11 +63,21 @@ public class MidiInputReceiver implements Receiver {
 		}
 
 		SpotifyApi spotifyApi = MidiController.getSpotifyApi();
-		if (channel == -78 && noteValue == 15) {
+		if (channel == -75 && noteValue == 15) {
 			if (pressedValue >= 1 && skipped) {
 				skipped = false;
-				SkipUsersPlaybackToNextTrackRequest skipUsersPlaybackToNextTrackRequest = spotifyApi.skipUsersPlaybackToNextTrack().build();
-				skipUsersPlaybackToNextTrackRequest.execute();
+				if (MidiController.getInstance().getShouldSkipOnStart()) {
+					SkipUsersPlaybackToNextTrackRequest skipUsersPlaybackToNextTrackRequest = spotifyApi.skipUsersPlaybackToNextTrack().build();
+					skipUsersPlaybackToNextTrackRequest.execute();
+				} else {
+					GetInformationAboutUsersCurrentPlaybackRequest currentPlaybackRequest = spotifyApi.getInformationAboutUsersCurrentPlayback().build();
+					CurrentlyPlayingContext currentlyPlayingContext = currentPlaybackRequest.execute();
+
+					if (!currentlyPlayingContext.getIs_playing()) {
+						StartResumeUsersPlaybackRequest startResumeUsersPlaybackRequest = spotifyApi.startResumeUsersPlayback().build();
+						startResumeUsersPlaybackRequest.execute();
+					}
+				}
 			}
 
 			if (pressedValue < 1 && !skipped) {

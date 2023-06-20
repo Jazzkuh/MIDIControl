@@ -27,6 +27,8 @@ public class MidiController {
 	private final @Getter DefaultConfiguration defaultConfiguration;
 	private @Getter TargetDataLine line;
 	private @Getter @Setter Boolean onAir = false;
+	private @Getter @Setter Boolean shouldSkipOnStart = true;
+	private @Getter @Setter byte previousButton = 0;
 
 	@SneakyThrows
 	public MidiController() {
@@ -61,7 +63,11 @@ public class MidiController {
 		line = dataLine;
 		*/
 
-		new RegularLightTrigger().process(null);
+		try {
+			new RegularLightTrigger().process(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		spotifyApi = new SpotifyApi.Builder()
 				.setClientId(defaultConfiguration.getSpotifyClientId())
