@@ -136,7 +136,7 @@ public class MidiControllerApplication extends Application {
 			TargetDataLine line = entry.getKey();
 			DecibelMeterPane decibelMeterPane = entry.getValue();
 
-			new Timer().scheduleAtFixedRate(new OutputLevelDetector(line, decibelMeterPane), 0, 1);
+			CompletableFuture.runAsync(() -> new Timer().scheduleAtFixedRate(new OutputLevelDetector(line, decibelMeterPane), 0, 100));
 		}
 
 
