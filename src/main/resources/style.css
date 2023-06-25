@@ -1,0 +1,9 @@
+.textfield {
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.textfield2 {
+    -fx-text-fill: yellow;
+    -fx-opacity: 1;
+}

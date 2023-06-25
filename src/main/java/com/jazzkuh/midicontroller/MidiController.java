@@ -2,6 +2,7 @@ package com.jazzkuh.midicontroller;
 
 import com.jazzkuh.midicontroller.common.configuration.DefaultConfiguration;
 import com.jazzkuh.midicontroller.common.triggers.RegularLightTrigger;
+import com.jazzkuh.midicontroller.common.utils.panes.DecibelMeterPane;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +12,7 @@ import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCrede
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 
 import javax.sound.sampled.*;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -25,10 +23,13 @@ public class MidiController {
 	private static @Getter SpotifyApi spotifyApi;
 	private final @Getter Logger logger = Logger.getLogger("MidiControl");
 	private final @Getter DefaultConfiguration defaultConfiguration;
-	private @Getter TargetDataLine line;
+	private @Getter TargetDataLine micLine;
+	private @Getter TargetDataLine mainLine;
+	private @Getter TargetDataLine secondaryLine;
 	private @Getter @Setter Boolean onAir = false;
 	private @Getter @Setter Boolean shouldSkipOnStart = true;
 	private @Getter @Setter byte previousButton = 0;
+	private @Getter @Setter Long microphoneOnAirTime = null;
 
 	@SneakyThrows
 	public MidiController() {
@@ -40,28 +41,10 @@ public class MidiController {
 			return;
 		}
 
-		/*
 		AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
-		Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
-		Optional<Mixer.Info> optionalLineInfo = Arrays.stream(mixerInfos).filter(mixerInfo -> mixerInfo.getName().equals("RODECaster Pro II Chat")).findFirst();
-		if (optionalLineInfo.isEmpty()) {
-			System.out.println("Microphone line is not supported.");
-			System.exit(0);
-		}
-
-		DataLine.Info info = new DataLine.Info(TargetDataLine.class, format, AudioSystem.NOT_SPECIFIED);
-		Mixer mixer = AudioSystem.getMixer(optionalLineInfo.get());
-
-		if (!mixer.isLineSupported(info)) {
-			System.out.println("Selected input device is not supported.");
-			System.exit(0);
-		}
-
-		TargetDataLine dataLine = (TargetDataLine) mixer.getLine(info);
-		dataLine.open(format);
-		dataLine.start();
-		line = dataLine;
-		*/
+		micLine = getLine("RODECaster Pro II Chat", format);
+		mainLine = getLine("RODECaster Pro II Main Multitrack", format);
+		secondaryLine = getLine("RODECaster Pro II Secondary", format);
 
 		try {
 			new RegularLightTrigger().process(null);
@@ -85,12 +68,35 @@ public class MidiController {
 				System.out.println("Regenerated new Spotify credentials. (Expires in: " + (authorizationCodeCredentials.getExpiresIn() / 60 / 60) + " hour)");
 			}
 		}, 0, 3200 * 1000);
-
-		//new Timer().scheduleAtFixedRate(new OnAirChecker(), 0, 1);
 	}
 
 	public static void main(String[] args) {
 		setInstance(new MidiController());
 		MidiControllerApplication.startApp(args);
+	}
+
+	@SneakyThrows
+	private TargetDataLine getLine(String name, AudioFormat format) {
+		Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
+		Optional<Mixer.Info> optionalLineInfo = Arrays.stream(mixerInfos).filter(mixerInfo -> mixerInfo.getName().equals(name)).findFirst();
+		if (optionalLineInfo.isEmpty()) {
+			System.out.println("Microphone line is not supported.");
+			System.exit(0);
+		}
+
+		DataLine.Info info = new DataLine.Info(TargetDataLine.class, format, AudioSystem.NOT_SPECIFIED);
+		Mixer mixer = AudioSystem.getMixer(optionalLineInfo.get());
+
+		if (!mixer.isLineSupported(info)) {
+			System.out.println("Selected input device is not supported.");
+			System.exit(0);
+		}
+
+		TargetDataLine dataLine = (TargetDataLine) mixer.getLine(info);
+		dataLine.open(format);
+		dataLine.start();
+		System.out.println("Microphone line " + name + " is ready.");
+
+		return dataLine;
 	}
 }

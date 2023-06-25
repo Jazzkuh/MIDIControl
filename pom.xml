@@ -142,7 +142,7 @@
                         <CFBundleName>MidiControl</CFBundleName>
                         <CFBundleIconFile>src/main/resources/app.icns</CFBundleIconFile>
                         <JVMMainClassName>com.jazzkuh.midicontroller.MidiController</JVMMainClassName>
-                        <!--<NSMicrophoneUsageDescription>Needed for on air feature.</NSMicrophoneUsageDescription>-->
+                        <NSMicrophoneUsageDescription>Needed for on air feature.</NSMicrophoneUsageDescription>
                     </plist>
                 </configuration>
                 <executions>

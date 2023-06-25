@@ -2,6 +2,7 @@ package com.jazzkuh.midicontroller.common.triggers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.jazzkuh.midicontroller.MidiController;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiResult;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiTriggerAction;
 import lombok.SneakyThrows;
@@ -22,6 +23,7 @@ public class RegularLightTrigger extends MidiTriggerAction {
 				"}\n" +
 				"}").getAsJsonObject();
 
+		MidiController.getInstance().setMicrophoneOnAirTime(null);
 		sendRequest("http://localhost:39231/api/send?token=lumia892089382", jsonObject);
 	}
 
