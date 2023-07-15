@@ -42,12 +42,6 @@ public class MidiController {
 		AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
 		/*mainLine = getLine("RODECaster Pro II Main Multitrack", format);*/
 
-		try {
-			new RegularLightTrigger().process(null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		spotifyApi = new SpotifyApi.Builder()
 				.setClientId(defaultConfiguration.getSpotifyClientId())
 				.setClientSecret(defaultConfiguration.getSpotifyClientSecret())
@@ -68,6 +62,13 @@ public class MidiController {
 
 	public static void main(String[] args) {
 		setInstance(new MidiController());
+
+		try {
+			new RegularLightTrigger().process(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		MidiControllerApplication.startApp(args);
 	}
 

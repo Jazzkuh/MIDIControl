@@ -1,46 +1,24 @@
 package com.jazzkuh.midicontroller.common.triggers;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.jazzkuh.midicontroller.MidiController;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiResult;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiTriggerAction;
+import com.jazzkuh.midicontroller.common.utils.lighting.PhilipsWizLightController;
+import com.jazzkuh.midicontroller.common.utils.lighting.bulb.Bulb;
+import com.jazzkuh.midicontroller.common.utils.lighting.bulb.BulbRegistry;
 import lombok.SneakyThrows;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 public class RegularLightTrigger extends MidiTriggerAction {
 	@Override
 	@SneakyThrows
 	public void process(MidiResult midiResult) {
-		JsonObject jsonObject = new JsonParser().parse("{\n" +
-				"\"type\": \"studio-scene\",\n" +
-				"\"params\": {\n" +
-				"\"value\": \"Default\"\n" +
-				"}\n" +
-				"}").getAsJsonObject();
-
 		MidiController.getInstance().setMicrophoneOnAirTime(null);
-		sendRequest("http://localhost:39231/api/send?token=lumia892089382", jsonObject);
-	}
+		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "green")) {
+			PhilipsWizLightController.setRGBColor(bulb, 24, 255, 0, 100);
+		}
 
-	@SneakyThrows
-	public static void sendRequest(String apiurl, JsonObject jsonObject){
-		URL url = new URL(apiurl);
-
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("POST");
-		connection.setDoOutput(true);
-		connection.setRequestProperty("Content-Type","application/json");
-		connection.setRequestProperty("Accept", "application/json");
-
-		byte[] out = jsonObject.toString().getBytes(StandardCharsets.UTF_8);
-		OutputStream stream = connection.getOutputStream();
-		stream.write(out);
-		System.out.println(connection.getResponseCode() + " " + connection.getResponseMessage()); // THis is optional
-		connection.disconnect();
+		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "purple")) {
+			PhilipsWizLightController.setRGBColor(bulb, 188, 0, 255, 100);
+		}
 	}
 }
