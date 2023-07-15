@@ -23,9 +23,7 @@ public class MidiController {
 	private static @Getter SpotifyApi spotifyApi;
 	private final @Getter Logger logger = Logger.getLogger("MidiControl");
 	private final @Getter DefaultConfiguration defaultConfiguration;
-	private @Getter TargetDataLine micLine;
 	private @Getter TargetDataLine mainLine;
-	private @Getter TargetDataLine secondaryLine;
 	private @Getter @Setter Boolean onAir = false;
 	private @Getter @Setter Boolean shouldSkipOnStart = true;
 	private @Getter @Setter byte previousButton = 0;
@@ -42,9 +40,7 @@ public class MidiController {
 		}
 
 		AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
-		micLine = getLine("RODECaster Pro II Chat", format);
-		mainLine = getLine("RODECaster Pro II Main Multitrack", format);
-		secondaryLine = getLine("RODECaster Pro II Secondary", format);
+		/*mainLine = getLine("RODECaster Pro II Main Multitrack", format);*/
 
 		try {
 			new RegularLightTrigger().process(null);

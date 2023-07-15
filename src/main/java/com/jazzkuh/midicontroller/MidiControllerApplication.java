@@ -123,20 +123,16 @@ public class MidiControllerApplication extends Application {
 			}
 		}, 1000, 1000);
 
-		DecibelMeterPane micMeter = new DecibelMeterPane(70, 300, "Mic");
-		DecibelMeterPane mainMeter = new DecibelMeterPane(70, 300, "Out A");
-		DecibelMeterPane secondaryMeter = new DecibelMeterPane(70, 300, "Out B");
+		DecibelMeterPane mainMeter = new DecibelMeterPane(70, 300, "Main Output");
 
 		Map<TargetDataLine, DecibelMeterPane> decibelMeterPaneMap = new HashMap<>();
-		decibelMeterPaneMap.put(MidiController.getInstance().getMicLine(), micMeter);
 		decibelMeterPaneMap.put(MidiController.getInstance().getMainLine(), mainMeter);
-		decibelMeterPaneMap.put(MidiController.getInstance().getSecondaryLine(), secondaryMeter);
 
 		for (Map.Entry<TargetDataLine, DecibelMeterPane> entry : decibelMeterPaneMap.entrySet()) {
 			TargetDataLine line = entry.getKey();
 			DecibelMeterPane decibelMeterPane = entry.getValue();
 
-			CompletableFuture.runAsync(() -> new Timer().scheduleAtFixedRate(new OutputLevelDetector(line, decibelMeterPane), 0, 100));
+			//CompletableFuture.runAsync(() -> new Timer().scheduleAtFixedRate(new OutputLevelDetector(line, decibelMeterPane), 0, 100));
 		}
 
 
@@ -144,7 +140,7 @@ public class MidiControllerApplication extends Application {
 		decibelMeterHBox.setAlignment(Pos.BOTTOM_RIGHT);
 		decibelMeterHBox.setTranslateX(-40);
 		decibelMeterHBox.setTranslateY(-50);
-		decibelMeterHBox.getChildren().addAll(micMeter, mainMeter, secondaryMeter);
+		decibelMeterHBox.getChildren().addAll(mainMeter);
 
 		stackPane.getChildren().addAll(
 				nextHour,

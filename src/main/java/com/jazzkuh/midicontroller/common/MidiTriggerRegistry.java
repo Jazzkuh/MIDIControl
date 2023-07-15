@@ -11,6 +11,8 @@ public class MidiTriggerRegistry {
 	private static Map<MidiResult, Class<? extends MidiTriggerAction>> triggers = new HashMap<>();
 
 	static {
+		triggers.put(new MidiResult((byte) 7, (byte) 0), DisablePartyLightTrigger.class);
+		triggers.put(new MidiResult((byte) 7, (byte) 127), EnablePartyLightTrigger.class);
 		triggers.put(new MidiResult((byte) 8, (byte) 127), SpotifyPauseTrigger.class);
 		triggers.put(new MidiResult((byte) 9, (byte) 127), SpotifySkipTrigger.class);
 		triggers.put(new MidiResult((byte) 10, (byte) 127), SpotifyPreviousTrigger.class);
