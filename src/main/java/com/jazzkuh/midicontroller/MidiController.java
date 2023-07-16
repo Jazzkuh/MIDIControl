@@ -2,7 +2,6 @@ package com.jazzkuh.midicontroller;
 
 import com.jazzkuh.midicontroller.common.configuration.DefaultConfiguration;
 import com.jazzkuh.midicontroller.common.triggers.RegularLightTrigger;
-import com.jazzkuh.midicontroller.common.utils.panes.DecibelMeterPane;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,10 @@ import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCrede
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 
 import javax.sound.sampled.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -60,6 +62,7 @@ public class MidiController {
 		}, 0, 3200 * 1000);
 	}
 
+	@SneakyThrows
 	public static void main(String[] args) {
 		setInstance(new MidiController());
 

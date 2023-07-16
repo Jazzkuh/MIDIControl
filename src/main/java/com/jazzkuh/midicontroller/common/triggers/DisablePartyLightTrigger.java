@@ -4,18 +4,23 @@ import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiResult;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiTriggerAction;
 import lombok.SneakyThrows;
 
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DisablePartyLightTrigger extends MidiTriggerAction {
 	@Override
 	@SneakyThrows
 	public void process(MidiResult midiResult) {
 		sendRequest("http://localhost:8888/dance-to-spotify/abort");
-		new FixAllLightTrigger().process(midiResult);
-		new RegularLightTrigger().process(midiResult);
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				new FixAllLightTrigger().process(midiResult);
+				System.out.println("Party light disabled");
+			}
+		}, 5);
 	}
 
 	@SneakyThrows
