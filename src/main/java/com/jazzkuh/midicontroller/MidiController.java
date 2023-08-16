@@ -30,6 +30,8 @@ public class MidiController {
 	private @Getter @Setter Boolean shouldSkipOnStart = true;
 	private @Getter @Setter byte previousButton = 0;
 	private @Getter @Setter Long microphoneOnAirTime = null;
+	private @Getter @Setter Boolean partyMode = false;
+	private @Getter @Setter Boolean silence = false;
 
 	@SneakyThrows
 	public MidiController() {
@@ -42,7 +44,7 @@ public class MidiController {
 		}
 
 		AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
-		/*mainLine = getLine("RODECaster Pro II Main Multitrack", format);*/
+		mainLine = getLine("RODECaster Pro II Main Multitrack", format);
 
 		spotifyApi = new SpotifyApi.Builder()
 				.setClientId(defaultConfiguration.getSpotifyClientId())

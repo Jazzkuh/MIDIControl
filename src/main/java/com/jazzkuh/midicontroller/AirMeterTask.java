@@ -1,25 +1,23 @@
 package com.jazzkuh.midicontroller;
 
+import com.jazzkuh.midicontroller.common.utils.AnimationTimerExt;
 import com.jazzkuh.midicontroller.common.utils.panes.DecibelMeterPane;
-import lombok.SneakyThrows;
 
 import javax.sound.sampled.TargetDataLine;
-import java.util.Map;
-import java.util.TimerTask;
 
-public class OutputLevelDetector extends TimerTask {
+public class AirMeterTask extends AnimationTimerExt {
 	private static final double MAX_AMPLITUDE = 32767; // Maximum amplitude for 16-bit audio
 	private TargetDataLine targetDataLine;
 	private DecibelMeterPane decibelMeterPane;
 
-	public OutputLevelDetector(TargetDataLine targetDataLine, DecibelMeterPane decibelMeterPane) {
+	public AirMeterTask(TargetDataLine targetDataLine, DecibelMeterPane decibelMeterPane) {
+		super(100);
 		this.targetDataLine = targetDataLine;
 		this.decibelMeterPane = decibelMeterPane;
 	}
 
 	@Override
-	@SneakyThrows
-	public void run() {
+	public void handle() {
 		byte[] buffer = new byte[1024];
 
 		int bytesRead = targetDataLine.read(buffer, 0, buffer.length);

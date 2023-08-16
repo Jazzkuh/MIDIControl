@@ -11,15 +11,15 @@ public class BulbRegistry {
 	private static final List<Bulb> bulbs = new ArrayList<>();
 
 	static {
-		bulbs.add(new Bulb("studio_right", "192.168.178.171", "studio", "right", "purple"));
-		bulbs.add(new Bulb("studio_left", "192.168.178.115", "studio", "left", "green"));
-		bulbs.add(new Bulb("studio_led_strip", "192.168.178.179", "studio", "led_strip", "green"));
-		bulbs.add(new Bulb("living_table", "192.168.178.38", "living", "table", "warm_white"));
-		bulbs.add(new Bulb("living_hanging", "192.168.178.81", "living", "hanging", "warm_white"));
-		bulbs.add(new Bulb("living_standing", "192.168.178.80", "living", "standing", "warm_white"));
-		bulbs.add(new Bulb("kitchen_one", "192.168.178.109", "kitchen", "one", "warm_white"));
-		bulbs.add(new Bulb("kitchen_two", "192.168.178.101", "kitchen", "two", "warm_white"));
-		bulbs.add(new Bulb("kitchen_three", "192.168.178.249", "kitchen", "three", "warm_white"));
+		bulbs.add(new Bulb("studio_right", "192.168.178.171", "studio", "right", "purple", "12482140", "indigo"));
+		bulbs.add(new Bulb("studio_left", "192.168.178.115", "studio", "left", "green", "12482140", "indigo"));
+		bulbs.add(new Bulb("studio_led_strip", "192.168.178.178", "studio", "led_strip", "green", "12482140", "magenta"));
+		bulbs.add(new Bulb("living_table", "192.168.178.38", "living", "table", "warm_white", "11711492"));
+		bulbs.add(new Bulb("living_hanging", "192.168.178.81", "living", "hanging", "warm_white", "11711492"));
+		bulbs.add(new Bulb("living_standing", "192.168.178.80", "living", "standing", "warm_white", "11711492"));
+		bulbs.add(new Bulb("kitchen_one", "192.168.178.109", "kitchen", "one", "warm_white", "11711485"));
+		bulbs.add(new Bulb("kitchen_two", "192.168.178.101", "kitchen", "two", "warm_white", "11711485"));
+		bulbs.add(new Bulb("kitchen_three", "192.168.178.249", "kitchen", "three", "warm_white", "11711485"));
 	}
 
 	public static List<Bulb> getBulbsByGroup(String group) {

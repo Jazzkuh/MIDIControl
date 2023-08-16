@@ -13,12 +13,17 @@ public class RegularLightTrigger extends MidiTriggerAction {
 	@SneakyThrows
 	public void process(MidiResult midiResult) {
 		MidiController.getInstance().setMicrophoneOnAirTime(null);
-		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "green")) {
-			PhilipsWizLightController.setRGBColor(bulb, 24, 255, 0, 100);
+		if (MidiController.getInstance().getPartyMode()) {
+			sendRequest("http://localhost:8888/dance-to-spotify?mode=party");
+			return;
 		}
 
-		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "purple")) {
-			PhilipsWizLightController.setRGBColor(bulb, 188, 0, 255, 100);
+		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "magenta")) {
+			PhilipsWizLightController.setRGBColor(bulb, 255, 0, 93, 100);
+		}
+
+		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "indigo")) {
+			PhilipsWizLightController.setRGBColor(bulb, 111, 0, 255, 100);
 		}
 	}
 }

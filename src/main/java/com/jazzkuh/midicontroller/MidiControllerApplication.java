@@ -16,14 +16,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import lombok.Getter;
 
-import javax.sound.sampled.TargetDataLine;
 import java.awt.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.*;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.Timer;
 import java.util.concurrent.CompletableFuture;
 
 public class MidiControllerApplication extends Application {
@@ -86,30 +86,25 @@ public class MidiControllerApplication extends Application {
 		logoHBox.getChildren().add(logoImage);
 
 		Timer timer = new Timer();
+		SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("Etc/GMT+0"));
+
 		timer.schedule(new java.util.TimerTask() {
 			@Override
 			public void run() {
 				CompletableFuture.runAsync(() -> {
 					try {
-						SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("HH:mm:ss");
 						Date now = new Date();
 
 						String formattedTime = new SimpleDateFormat("HH:mm:ss").format(now);
 						time.setText(formattedTime);
 
-						int minutes = now.getMinutes();
-						int seconds = now.getSeconds();
-
-						long msUntilNextHour = Duration.ofHours(1).minus(Duration.ofMinutes(minutes)).minus(Duration.ofSeconds(seconds)).toMillis();
-						dateFormat.setTimeZone(TimeZone.getTimeZone("Etc/GMT+0"));
-
+						long msUntilNextHour = Duration.ofHours(1).minus(Duration.ofMinutes(now.getMinutes())).minus(Duration.ofSeconds(now.getSeconds())).toMillis();
 						nextHour.setText(dateFormat.format(new Date(msUntilNextHour)));
 
 						if (MidiController.getInstance().getMicrophoneOnAirTime() != null) {
 							long elapsedMillis = System.currentTimeMillis() - MidiController.getInstance().getMicrophoneOnAirTime();
 							Date elapsed = new Date(elapsedMillis);
-
-							dateFormat.setTimeZone(TimeZone.getTimeZone("Etc/GMT+0"));
 
 							micOpenText.setText(dateFormat.format(elapsed));
 							onAirImage.setImage(onAir);
@@ -123,18 +118,16 @@ public class MidiControllerApplication extends Application {
 			}
 		}, 1000, 1000);
 
-		DecibelMeterPane mainMeter = new DecibelMeterPane(70, 300, "Main Output");
+		DecibelMeterPane mainMeter = new DecibelMeterPane(70, 350, "Main Output");
+		/*Platform.runLater(() -> {
+			new Timer().scheduleAtFixedRate(new OutputLevelDetector(MidiController.getInstance().getMainLine(), mainMeter), 100, 100);
+			mainMeter.requestFocus();
+		});*/
+		AirMeterTask airMeterTask = new AirMeterTask(MidiController.getInstance().getMainLine(), mainMeter);
 
-		Map<TargetDataLine, DecibelMeterPane> decibelMeterPaneMap = new HashMap<>();
-		decibelMeterPaneMap.put(MidiController.getInstance().getMainLine(), mainMeter);
-
-		for (Map.Entry<TargetDataLine, DecibelMeterPane> entry : decibelMeterPaneMap.entrySet()) {
-			TargetDataLine line = entry.getKey();
-			DecibelMeterPane decibelMeterPane = entry.getValue();
-
-			//CompletableFuture.runAsync(() -> new Timer().scheduleAtFixedRate(new OutputLevelDetector(line, decibelMeterPane), 0, 100));
-		}
-
+		Thread thread = new Thread(airMeterTask::start);
+		thread.setDaemon(true);
+		thread.start();
 
 		HBox decibelMeterHBox = new HBox();
 		decibelMeterHBox.setAlignment(Pos.BOTTOM_RIGHT);

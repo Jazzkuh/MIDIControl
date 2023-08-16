@@ -14,12 +14,12 @@ public class FixAllLightTrigger extends MidiTriggerAction {
 		for (Bulb bulb : BulbRegistry.getBulbsByGroups("warm_white")) {
 			PhilipsWizLightController.setColorTemperature(bulb, 60);
 		}
-		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "green")) {
-			PhilipsWizLightController.setRGBColor(bulb, 24, 255, 0, 100);
+		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "magenta")) {
+			PhilipsWizLightController.setRGBColor(bulb, 255, 0, 93, 100);
 		}
 
-		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "purple")) {
-			PhilipsWizLightController.setRGBColor(bulb, 188, 0, 255, 100);
+		for (Bulb bulb : BulbRegistry.getBulbsByGroups("studio", "indigo")) {
+			PhilipsWizLightController.setRGBColor(bulb, 111, 0, 255, 100);
 		}
 	}
 }

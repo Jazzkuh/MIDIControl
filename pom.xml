@@ -136,14 +136,17 @@
             <plugin>
                 <groupId>de.perdian.maven.plugins</groupId>
                 <artifactId>macosappbundler-maven-plugin</artifactId>
-                <version>1.18.0</version>
+                <version>1.19.0</version>
                 <configuration>
                     <plist>
                         <CFBundleName>MidiControl</CFBundleName>
                         <CFBundleIconFile>src/main/resources/app.icns</CFBundleIconFile>
                         <JVMMainClassName>com.jazzkuh.midicontroller.MidiController</JVMMainClassName>
-                        <!--<NSMicrophoneUsageDescription>Needed for on air feature.</NSMicrophoneUsageDescription>-->
+                        <NSMicrophoneUsageDescription>Used for the AirMeter feature</NSMicrophoneUsageDescription>
                     </plist>
+                    <codesign>
+                        <identity>-</identity>
+                    </codesign>
                 </configuration>
                 <executions>
                     <execution>
