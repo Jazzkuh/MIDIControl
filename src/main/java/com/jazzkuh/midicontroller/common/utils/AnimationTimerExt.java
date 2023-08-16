@@ -17,7 +17,11 @@ public abstract class AnimationTimerExt extends AnimationTimer {
         }
 
         prevTime = now;
-        handle();
+        try {
+            handle();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public abstract void handle();

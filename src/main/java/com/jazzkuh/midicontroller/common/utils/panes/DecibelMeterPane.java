@@ -1,5 +1,6 @@
 package com.jazzkuh.midicontroller.common.utils.panes;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -23,7 +24,7 @@ public class DecibelMeterPane extends StackPane {
 
         meterBarLeft = createSpectrumBar(meterWidth, height - 48);
         meterBarRight = createSpectrumBar(meterWidth, height - 48);
-        decibelLabel = createDecibelLabel();
+        decibelLabel = createLabel();
         secondaryLabel = createSecondaryLabel(secondaryLabelText);
 
         HBox meterBox = new HBox(6, meterBarLeft, meterBarRight);
@@ -43,8 +44,8 @@ public class DecibelMeterPane extends StackPane {
         return spectrumBar;
     }
 
-    private Label createDecibelLabel() {
-        Label label = new Label("0 dB");
+    private Label createLabel() {
+        Label label = new Label("Main");
         label.setTextFill(Color.WHITE);
         label.setStyle("-fx-font-size: 14px;");
         label.setTranslateY(13);
@@ -60,9 +61,9 @@ public class DecibelMeterPane extends StackPane {
     }
 
     public void updateMeter(double decibelValue) {
-        meterBarLeft.setValue(decibelValue);
-        meterBarRight.setValue(decibelValue);
-
-        decibelLabel.setText(String.format("%.1f dB", decibelValue));
+        Platform.runLater(() -> {
+            meterBarLeft.setValue(decibelValue);
+            meterBarRight.setValue(decibelValue);
+        });
     }
 }

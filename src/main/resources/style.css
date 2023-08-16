@@ -7,3 +7,8 @@
     -fx-text-fill: yellow;
     -fx-opacity: 1;
 }
+
+.textfield3 {
+    -fx-text-fill: red;
+    -fx-opacity: 1;
+}

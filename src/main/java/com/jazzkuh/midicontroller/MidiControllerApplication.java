@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 import java.awt.*;
 import java.net.URL;
@@ -24,7 +25,6 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.Timer;
-import java.util.concurrent.CompletableFuture;
 
 public class MidiControllerApplication extends Application {
 	@Override
@@ -74,6 +74,9 @@ public class MidiControllerApplication extends Application {
 
 		TextField micOpenTextField = getTextField("Mic open:", 40, Pos.CENTER_LEFT, "textfield");
 		TextField micOpenText = getTextField("00:00:00", 100, Pos.CENTER_LEFT, "textfield2");
+		TextField micText = getTextField("MIC", 160, Pos.CENTER_LEFT, "textfield3");
+		micText.setVisible(false);
+		micText.setPadding(new Insets(0, 0, 0, 20));
 
 		Image logo = new Image(MidiController.class.getClassLoader().getResource("logo-transparent.png").toString());
 		ImageView logoImage = new ImageView(logo);
@@ -89,40 +92,34 @@ public class MidiControllerApplication extends Application {
 		SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("HH:mm:ss");
 		dateFormat.setTimeZone(TimeZone.getTimeZone("Etc/GMT+0"));
 
-		timer.schedule(new java.util.TimerTask() {
+		MidiController.getExecutorService().submit(() -> timer.schedule(new java.util.TimerTask() {
 			@Override
+			@SneakyThrows
 			public void run() {
-				CompletableFuture.runAsync(() -> {
-					try {
-						Date now = new Date();
+				Date now = new Date();
 
-						String formattedTime = new SimpleDateFormat("HH:mm:ss").format(now);
-						time.setText(formattedTime);
+				String formattedTime = new SimpleDateFormat("HH:mm:ss").format(now);
+				time.setText(formattedTime.substring(0, 8));
 
-						long msUntilNextHour = Duration.ofHours(1).minus(Duration.ofMinutes(now.getMinutes())).minus(Duration.ofSeconds(now.getSeconds())).toMillis();
-						nextHour.setText(dateFormat.format(new Date(msUntilNextHour)));
+				long msUntilNextHour = Duration.ofHours(1).minus(Duration.ofMinutes(now.getMinutes())).minus(Duration.ofSeconds(now.getSeconds())).toMillis();
+				nextHour.setText(dateFormat.format(new Date(msUntilNextHour)));
 
-						if (MidiController.getInstance().getMicrophoneOnAirTime() != null) {
-							long elapsedMillis = System.currentTimeMillis() - MidiController.getInstance().getMicrophoneOnAirTime();
-							Date elapsed = new Date(elapsedMillis);
+				if (MidiController.getInstance().getMicrophoneOnAirTime() != null) {
+					long elapsedMillis = System.currentTimeMillis() - MidiController.getInstance().getMicrophoneOnAirTime();
+					Date elapsed = new Date(elapsedMillis);
 
-							micOpenText.setText(dateFormat.format(elapsed));
-							onAirImage.setImage(onAir);
-						} else {
-							micOpenText.setText("00:00:00");
-							onAirImage.setImage(offAir);
-						}
-					} catch (Exception ignored) {
-					}
-				});
+					micOpenText.setText(dateFormat.format(elapsed));
+					onAirImage.setImage(onAir);
+					micText.setVisible(true);
+				} else {
+					micOpenText.setText("00:00:00");
+					onAirImage.setImage(offAir);
+					micText.setVisible(false);
+				}
 			}
-		}, 1000, 1000);
+		}, 1000, 1000));
 
 		DecibelMeterPane mainMeter = new DecibelMeterPane(70, 350, "Main Output");
-		/*Platform.runLater(() -> {
-			new Timer().scheduleAtFixedRate(new OutputLevelDetector(MidiController.getInstance().getMainLine(), mainMeter), 100, 100);
-			mainMeter.requestFocus();
-		});*/
 		AirMeterTask airMeterTask = new AirMeterTask(MidiController.getInstance().getMainLine(), mainMeter);
 
 		Thread thread = new Thread(airMeterTask::start);
@@ -143,7 +140,8 @@ public class MidiControllerApplication extends Application {
 				time,
 				hbxImg,
 				logoHBox,
-				decibelMeterHBox
+				decibelMeterHBox,
+				micText
 		);
 
 		borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
