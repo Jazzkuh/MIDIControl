@@ -44,7 +44,7 @@ public class MidiController {
 		}
 
 		AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
-		mainLine = getLine("RODECaster Pro II Main Multitrack", format);
+		//mainLine = getLine("RODECaster Pro II Main Multitrack", format);
 
 		spotifyApi = new SpotifyApi.Builder()
 				.setClientId(defaultConfiguration.getSpotifyClientId())

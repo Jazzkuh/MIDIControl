@@ -1,6 +1,5 @@
 package com.jazzkuh.midicontroller.common.utils.lighting.bulb;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter

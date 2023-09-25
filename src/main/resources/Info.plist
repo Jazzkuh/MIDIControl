@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>com.apple.security.automation.apple-events</key>
+        <true/>
+        <key>CFBundleDisplayName</key>
+        <string>MIDIControl</string>
+        <key>CFBundleExecutable</key>
+        <string>JavaLauncher</string>
+        <key>CFBundleIdentifier</key>
+        <string>com.jazzkuh.MIDIControl</string>
+        <key>CFBundleName</key>
+        <string>MidiController</string>
+        <key>CFBundleShortVersionString</key>
+        <string>1.0-SNAPSHOT</string>
+        <key>CFBundleDevelopmentRegion</key>
+        <string>English</string>
+        <key>CFBundlePackageType</key>
+        <string>APPL</string>
+        <key>JVMMainClassName</key>
+        <string>com.jazzkuh.midicontroller.MidiController</string>
+        <key>NSHighResolutionCapable</key>
+        <true/>
+        <key>NSSupportsAutomaticGraphicsSwitching</key>
+        <true/>
+        <key>NSAppleEventsUsageDescription</key>
+        <string>Pls give</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>Used for the AirMeter feature</string>
+        <key>CFBundleIconFile</key>
+        <string>app.icns</string>
+    </dict>
+</plist>

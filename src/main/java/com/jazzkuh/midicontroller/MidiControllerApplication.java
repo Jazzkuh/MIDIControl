@@ -120,11 +120,11 @@ public class MidiControllerApplication extends Application {
 		}, 1000, 1000));
 
 		DecibelMeterPane mainMeter = new DecibelMeterPane(70, 350, "Main Output");
-		AirMeterTask airMeterTask = new AirMeterTask(MidiController.getInstance().getMainLine(), mainMeter);
+		//AirMeterTask airMeterTask = new AirMeterTask(MidiController.getInstance().getMainLine(), mainMeter);
 
-		Thread thread = new Thread(airMeterTask::start);
-		thread.setDaemon(true);
-		thread.start();
+		//Thread thread = new Thread(airMeterTask::start);
+		//thread.setDaemon(true);
+		//thread.start();
 
 		HBox decibelMeterHBox = new HBox();
 		decibelMeterHBox.setAlignment(Pos.BOTTOM_RIGHT);
@@ -140,7 +140,7 @@ public class MidiControllerApplication extends Application {
 				time,
 				hbxImg,
 				logoHBox,
-				decibelMeterHBox,
+				//decibelMeterHBox,
 				micText
 		);
 

@@ -1,4 +1,4 @@
-package com.jazzkuh.midicontroller.common.triggers;
+package com.jazzkuh.midicontroller.common.triggers.spotify;
 
 import com.jazzkuh.midicontroller.MidiController;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiResult;

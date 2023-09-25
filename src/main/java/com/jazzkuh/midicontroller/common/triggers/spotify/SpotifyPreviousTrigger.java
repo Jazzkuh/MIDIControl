@@ -1,11 +1,10 @@
-package com.jazzkuh.midicontroller.common.triggers;
+package com.jazzkuh.midicontroller.common.triggers.spotify;
 
 import com.jazzkuh.midicontroller.MidiController;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiResult;
 import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiTriggerAction;
 import lombok.SneakyThrows;
 import se.michaelthelin.spotify.SpotifyApi;
-import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToNextTrackRequest;
 import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToPreviousTrackRequest;
 
 public class SpotifyPreviousTrigger extends MidiTriggerAction {
