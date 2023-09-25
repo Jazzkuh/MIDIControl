@@ -1,4 +1,4 @@
-package com.jazzkuh.midicontroller.common.triggers.abstraction;
+package com.jazzkuh.midicontroller.common.midi.triggers.abstraction;
 
 import lombok.SneakyThrows;
 

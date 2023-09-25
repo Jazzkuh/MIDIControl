@@ -1,4 +1,4 @@
-package com.jazzkuh.midicontroller;
+package com.jazzkuh.midicontroller.common.midi;
 
 import lombok.SneakyThrows;
 

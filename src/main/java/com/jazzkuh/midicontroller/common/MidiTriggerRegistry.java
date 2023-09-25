@@ -1,13 +1,13 @@
 package com.jazzkuh.midicontroller.common;
 
-import com.jazzkuh.midicontroller.common.triggers.DisablePartyLightTrigger;
-import com.jazzkuh.midicontroller.common.triggers.EnablePartyLightTrigger;
-import com.jazzkuh.midicontroller.common.triggers.ToggleFaderSkipTrigger;
-import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiResult;
-import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiTriggerAction;
-import com.jazzkuh.midicontroller.common.triggers.applemusic.AppleMusicPauseTrigger;
-import com.jazzkuh.midicontroller.common.triggers.applemusic.AppleMusicPreviousTrigger;
-import com.jazzkuh.midicontroller.common.triggers.applemusic.AppleMusicSkipTrigger;
+import com.jazzkuh.midicontroller.common.midi.triggers.DisablePartyLightTrigger;
+import com.jazzkuh.midicontroller.common.midi.triggers.EnablePartyLightTrigger;
+import com.jazzkuh.midicontroller.common.midi.triggers.ToggleFaderSkipTrigger;
+import com.jazzkuh.midicontroller.common.midi.triggers.abstraction.MidiResult;
+import com.jazzkuh.midicontroller.common.midi.triggers.abstraction.MidiTriggerAction;
+import com.jazzkuh.midicontroller.common.midi.triggers.music.MusicPlayPauseTrigger;
+import com.jazzkuh.midicontroller.common.midi.triggers.music.MusicPreviousTrigger;
+import com.jazzkuh.midicontroller.common.midi.triggers.music.MusicSkipTrigger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,9 +18,9 @@ public class MidiTriggerRegistry {
 	static {
 		triggers.put(new MidiResult((byte) 7, (byte) 0), DisablePartyLightTrigger.class);
 		triggers.put(new MidiResult((byte) 7, (byte) 127), EnablePartyLightTrigger.class);
-		triggers.put(new MidiResult((byte) 8, (byte) 127), AppleMusicPauseTrigger.class);
-		triggers.put(new MidiResult((byte) 9, (byte) 127), AppleMusicSkipTrigger.class);
-		triggers.put(new MidiResult((byte) 10, (byte) 127), AppleMusicPreviousTrigger.class);
+		triggers.put(new MidiResult((byte) 8, (byte) 127), MusicPlayPauseTrigger.class);
+		triggers.put(new MidiResult((byte) 9, (byte) 127), MusicSkipTrigger.class);
+		triggers.put(new MidiResult((byte) 10, (byte) 127), MusicPreviousTrigger.class);
 		triggers.put(new MidiResult((byte) 11, (byte) 127), ToggleFaderSkipTrigger.class);
 	}
 

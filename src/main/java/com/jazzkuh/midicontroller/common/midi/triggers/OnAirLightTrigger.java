@@ -1,8 +1,8 @@
-package com.jazzkuh.midicontroller.common.triggers;
+package com.jazzkuh.midicontroller.common.midi.triggers;
 
 import com.jazzkuh.midicontroller.MidiController;
-import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiResult;
-import com.jazzkuh.midicontroller.common.triggers.abstraction.MidiTriggerAction;
+import com.jazzkuh.midicontroller.common.midi.triggers.abstraction.MidiResult;
+import com.jazzkuh.midicontroller.common.midi.triggers.abstraction.MidiTriggerAction;
 import com.jazzkuh.midicontroller.common.utils.lighting.PhilipsWizLightController;
 import com.jazzkuh.midicontroller.common.utils.lighting.bulb.Bulb;
 import com.jazzkuh.midicontroller.common.utils.lighting.bulb.BulbRegistry;

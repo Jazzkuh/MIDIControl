@@ -1,6 +1,5 @@
 package com.jazzkuh.midicontroller;
 
-import com.jazzkuh.midicontroller.common.utils.panes.DecibelMeterPane;
 import de.jangassen.MenuToolkit;
 import de.jangassen.model.AppearanceMode;
 import javafx.application.Application;
@@ -23,6 +22,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Timer;
 
@@ -34,7 +34,7 @@ public class MidiControllerApplication extends Application {
 			System.exit(0);
 		});
 
-		MenuToolkit menuToolkit = MenuToolkit.toolkit();
+		MenuToolkit menuToolkit = MenuToolkit.toolkit(Locale.ENGLISH);
 		menuToolkit.setAppearanceMode(AppearanceMode.AUTO);
 
 		Image image = new Image(MidiController.class.getClassLoader().getResource("tray_icon.png").toString());
@@ -119,19 +119,6 @@ public class MidiControllerApplication extends Application {
 			}
 		}, 1000, 1000));
 
-		DecibelMeterPane mainMeter = new DecibelMeterPane(70, 350, "Main Output");
-		//AirMeterTask airMeterTask = new AirMeterTask(MidiController.getInstance().getMainLine(), mainMeter);
-
-		//Thread thread = new Thread(airMeterTask::start);
-		//thread.setDaemon(true);
-		//thread.start();
-
-		HBox decibelMeterHBox = new HBox();
-		decibelMeterHBox.setAlignment(Pos.BOTTOM_RIGHT);
-		decibelMeterHBox.setTranslateX(-40);
-		decibelMeterHBox.setTranslateY(-50);
-		decibelMeterHBox.getChildren().addAll(mainMeter);
-
 		stackPane.getChildren().addAll(
 				nextHour,
 				nextHourTextField,
@@ -140,7 +127,6 @@ public class MidiControllerApplication extends Application {
 				time,
 				hbxImg,
 				logoHBox,
-				//decibelMeterHBox,
 				micText
 		);
 

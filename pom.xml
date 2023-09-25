@@ -191,12 +191,6 @@
             <version>4.1.2</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>se.michaelthelin.spotify</groupId>
-            <artifactId>spotify-web-api-java</artifactId>
-            <version>7.2.0</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.tagtraum</groupId>
@@ -226,16 +220,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>de.jangassen</groupId>
-            <artifactId>nsmenufx</artifactId>
-            <version>3.1.0</version>
+            <groupId>com.github.0x4a616e</groupId>
+            <artifactId>NSMenuFX</artifactId>
+            <version>cdb11ef2f8</version>
             <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.JnCrMx</groupId>
-            <artifactId>discord-game-sdk4j</artifactId>
-            <version>v0.5.5</version>
         </dependency>
     </dependencies>
 </project>
